@@ -1,0 +1,12 @@
+table#sudoku tbody tr td input {
+  width: 100%;
+}
+
+table#sudoku td {
+  border-top: 0;
+  padding: 0.75rem 0.5rem;
+}
+
+a:hover {
+  text-decoration: underline !important;
+}
