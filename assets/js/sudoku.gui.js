@@ -5,6 +5,7 @@ class SudokuGUI {
   static TD_PRE_STR = "sudoku-col-";
   static INPUT_CLASS_STR = "sudoku-field";
   static INPUT_SEARCH_STR = this.TABLE_SEARCH_STR + " input." + this.INPUT_CLASS_STR;
+  static SOLVE_SEARCH_STR = "div#sudoku-solutions";
   static SESSTORE_STR = "sudoku-cells";
   static DEFAULT_SIZE = 9;
 
@@ -48,6 +49,38 @@ class SudokuGUI {
     let _values = $(this.INPUT_SEARCH_STR).toArray().map(_val => _val.value);
     let _grid   = new Sudoku.Grid(_values, size);
     let _solver = new Sudoku.Solver(_grid).solve();
+    this.emptySolutions();
+    for(let _solution of _solver.solutions) {
+      this.appendSolution(_solution, size);
+    }
+  }
+
+  static emptySolutions() {
+    $(this.SOLVE_SEARCH_STR).empty();
+  }
+
+  static appendSolution(solution, size) {
+    let _solutionDiv = $(this.SOLVE_SEARCH_STR);
+    let _table = $("<table>").
+      addClass("mb-3"); // new object
+    let _tbody = $("<tbody>"); // new object
+    _solutionDiv.append(_table);
+    _table.append(_tbody);
+
+    for(let _row = 0; _row < size; _row++) {
+      let _tr = $("<tr>").
+        addClass("p-2"); // new object
+      _tbody.append(_tr);
+
+      for(let _col = 0; _col < size; _col++) {
+        let _val = solution[(_row * size) + _col];
+        let _td = $("<td>").
+          addClass("p-2").
+          addClass(this.backgroundClassColor(_row + 1, _col + 1)).
+          text(_val); // new object
+        _tr.append(_td);
+      }
+    }
   }
 
   static reset() {
@@ -69,9 +102,9 @@ class SudokuGUI {
 
   static backgroundClassColor(row, col) {
     if(this.isBetween(row, 4, 6)) {
-      return (this.isBetween(col, 4, 6) ? "bg-secondary" : "bg-light");
+      return (this.isBetween(col, 4, 6) ? "bg-secondary text-white" : "bg-light");
     } else {
-      return (this.isBetween(col, 4, 6) ? "bg-light" : "bg-secondary");
+      return (this.isBetween(col, 4, 6) ? "bg-light" : "bg-secondary text-white");
     }
   }
 
