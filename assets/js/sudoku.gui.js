@@ -97,7 +97,7 @@ class SudokuGUI {
 
   static saveSessionStorage() {
     let _values = $(this.INPUT_SEARCH_STR).toArray().map(_val => _val.value);
-    sessionStorage.setItem(SESSTORE_STR, JSON.stringify(_values));
+    sessionStorage.setItem(this.SESSTORE_STR, JSON.stringify(_values));
   }
 
   static backgroundClassColor(row, col) {
